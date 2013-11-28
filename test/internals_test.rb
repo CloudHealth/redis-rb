@@ -343,6 +343,7 @@ class TestInternals < Test::Unit::TestCase
     assert_equal "foo", redis.client.options[:scheme]
   end
 
+<<<<<<< HEAD
   def test_resolves_localhost
     assert_nothing_raised do
       Redis.new(OPTIONS.merge(:host => 'localhost')).ping
@@ -417,4 +418,16 @@ class TestInternals < Test::Unit::TestCase
       redis.ping
     end
   end
+  
+  def test_auto_reconnect_option_by_default
+    redis = Redis.new
+    assert redis.options.has_key?[:auto_reconnect]
+    assert not(redis.options[:auto_reconnect])
+  end
+
+  def test_pass_auto_reconnect_option
+    redis = Redis.new(OPTIONS.merge(:auto_reconnect => true))
+    assert redis.options[:auto_reconnect]
+  end
+
 end
