@@ -407,4 +407,14 @@ class TestInternals < Test::Unit::TestCase
 
     assert_equal clients + 1, r.info["connected_clients"].to_i
   end
+
+  def test_auto_reconnect_option
+    redis = Redis.new(OPTIONS.merger(:auto_reconnect=>true))
+    fork do
+      redis.ping
+    end
+    fork do
+      redis.ping
+    end
+  end
 end
